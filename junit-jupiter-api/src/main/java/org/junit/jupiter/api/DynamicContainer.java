@@ -17,6 +17,7 @@ import java.util.stream.StreamSupport;
 
 import org.apiguardian.api.API;
 import org.junit.platform.commons.util.Preconditions;
+import org.junit.platform.engine.TestSource;
 
 /**
  * A {@code DynamicContainer} is a container generated at runtime.
@@ -84,4 +85,10 @@ public class DynamicContainer extends DynamicNode {
 		return children;
 	}
 
+	@Override
+	public DynamicContainer withTestSource(TestSource testSource) {
+		DynamicContainer clone = new DynamicContainer(getDisplayName(), getChildren());
+		clone.setTestSource(testSource);
+		return clone;
+	}
 }

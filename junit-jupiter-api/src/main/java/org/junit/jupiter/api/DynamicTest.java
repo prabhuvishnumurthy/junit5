@@ -23,6 +23,7 @@ import org.apiguardian.api.API;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.api.function.ThrowingConsumer;
 import org.junit.platform.commons.util.Preconditions;
+import org.junit.platform.engine.TestSource;
 
 /**
  * A {@code DynamicTest} is a test case generated at runtime.
@@ -113,4 +114,10 @@ public class DynamicTest extends DynamicNode {
 		return this.executable;
 	}
 
+	@Override
+	public DynamicTest withTestSource(TestSource testSource) {
+		DynamicTest clone = new DynamicTest(getDisplayName(), getExecutable());
+		clone.setTestSource(testSource);
+		return clone;
+	}
 }
