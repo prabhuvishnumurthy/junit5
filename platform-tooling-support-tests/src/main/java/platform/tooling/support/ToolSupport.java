@@ -36,6 +36,15 @@ public class ToolSupport {
 
 	/** Get build tool. */
 	public Path init() throws Exception {
+		// sanity check
+		var projects = Paths.get("projects");
+		if (!Files.isDirectory(projects)) {
+			throw new IllegalStateException("Directory " + projects + " not found in: " + Paths.get(".").normalize().toAbsolutePath());
+		}
+
+		Files.createDirectories(toolPath);
+		Files.createDirectories(workPath);
+
 		// trivial case: use "gradlew" from "junit5" main project
 		if (tool.equals(Tool.GRADLE) && version.isEmpty()) {
 			var executable = "gradlew";
@@ -50,7 +59,7 @@ public class ToolSupport {
 		var toolUri = tool.createUri(version);
 		var toolArchivePath = toolPath.resolve(toolArchive);
 		if (Files.notExists(toolArchivePath)) {
-			FileUtils.copyURLToFile(toolUri.toURL(), toolArchivePath.toFile(), 2000, 2000);
+			FileUtils.copyURLToFile(toolUri.toURL(), toolArchivePath.toFile(), 5000, 5000);
 		}
 
 		// extract
